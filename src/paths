@@ -1,0 +1,37 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export function resolvePublicDir(): string {
+  const candidates = [
+    path.resolve(__dirname, '..', 'public'),
+    path.resolve(process.cwd(), 'public'),
+  ];
+
+  for (const dir of candidates) {
+    if (existsSync(path.join(dir, 'index.html'))) {
+      return dir;
+    }
+  }
+
+  throw new Error(
+    `Could not find public/index.html. Tried:\n${candidates.join('\n')}\ncwd=${process.cwd()}`,
+  );
+}
+
+export function isPathInside(filePath: string, dir: string): boolean {
+  const rel = path.relative(path.resolve(dir), path.resolve(filePath));
+  return rel !== '' && !rel.startsWith('..') && !path.isAbsolute(rel);
+}
+
+export function requestPathname(url: string | undefined): string {
+  if (!url) return '/';
+  const raw = url.split('?')[0] ?? '/';
+  try {
+    return new URL(raw, 'http://127.0.0.1').pathname;
+  } catch {
+    return raw.startsWith('/') ? raw : `/${raw}`;
+  }
+}
