@@ -1,0 +1,19 @@
+{
+  "name": "wp-security-scanner",
+  "version": "1.0.0",
+  "description": "WordPress security crawler — backdoors, robots.txt, XSS, admin exposure",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx src/server.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
