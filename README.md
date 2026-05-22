@@ -21,7 +21,7 @@
 ## Quick start
 
 ```bash
-cd wp-security-scanner
+cd webdotcrwlr.js
 npm install
 npm run dev
 ```
